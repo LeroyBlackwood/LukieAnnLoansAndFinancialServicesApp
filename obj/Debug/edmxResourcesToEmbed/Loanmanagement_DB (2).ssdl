@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LukieAnnsLoans_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customer_Table">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="emailAddress" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Telephone" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LoanInterest">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rate" Type="int" />
+  </EntityType>
+  <EntityType Name="loanIssueance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="LoanAmount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="MonthlyPayment" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="status" Type="nvarchar" MaxLength="50" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+  </EntityType>
+  <EntityType Name="LoanTerm">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Term" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="LoanTermLinkTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Customer_Id" Type="int" />
+    <Property Name="LoanType_Id" Type="int" />
+    <Property Name="LoanTerm_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="LoanType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="100" />
+    <Property Name="LoanInterest_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="Login_DateTimeTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login_ID" Type="int" Nullable="false" />
+    <Property Name="Login_DateTime" Type="datetime" />
+    <Property Name="Logout_DateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="LogIn_UserLinkerTable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LogIn_ID" Type="int" Nullable="false" />
+    <Property Name="Role_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User_LogIn">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="isActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserRole" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="roleShortName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_loanIssueance_Customer_Table">
+    <End Role="Customer_Table" Type="Self.Customer_Table" Multiplicity="0..1" />
+    <End Role="loanIssueance" Type="Self.loanIssueance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer_Table">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="loanIssueance">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanTermLinkTable_Customer_Table">
+    <End Role="Customer_Table" Type="Self.Customer_Table" Multiplicity="0..1" />
+    <End Role="LoanTermLinkTable" Type="Self.LoanTermLinkTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer_Table">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="LoanTermLinkTable">
+        <PropertyRef Name="Customer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanTermLinkTable_LoanTerm">
+    <End Role="LoanTerm" Type="Self.LoanTerm" Multiplicity="0..1" />
+    <End Role="LoanTermLinkTable" Type="Self.LoanTermLinkTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoanTerm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LoanTermLinkTable">
+        <PropertyRef Name="LoanTerm_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanTermLinkTable_LoanType">
+    <End Role="LoanType" Type="Self.LoanType" Multiplicity="0..1" />
+    <End Role="LoanTermLinkTable" Type="Self.LoanTermLinkTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoanType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LoanTermLinkTable">
+        <PropertyRef Name="LoanType_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanType_LoanInterest">
+    <End Role="LoanInterest" Type="Self.LoanInterest" Multiplicity="0..1" />
+    <End Role="LoanType" Type="Self.LoanType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoanInterest">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LoanType">
+        <PropertyRef Name="LoanInterest_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanType_LoanType">
+    <End Role="LoanInterest" Type="Self.LoanInterest" Multiplicity="0..1" />
+    <End Role="LoanType" Type="Self.LoanType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoanInterest">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LoanType">
+        <PropertyRef Name="LoanInterest_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Login_DateTimeTable_LogIn">
+    <End Role="User_LogIn" Type="Self.User_LogIn" Multiplicity="1" />
+    <End Role="Login_DateTimeTable" Type="Self.Login_DateTimeTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_LogIn">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Login_DateTimeTable">
+        <PropertyRef Name="Login_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogIn_UserLinkerTable_LogIn">
+    <End Role="User_LogIn" Type="Self.User_LogIn" Multiplicity="1" />
+    <End Role="LogIn_UserLinkerTable" Type="Self.LogIn_UserLinkerTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_LogIn">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogIn_UserLinkerTable">
+        <PropertyRef Name="LogIn_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogIn_UserLinkerTalbe_UserTable">
+    <End Role="UserTable" Type="Self.UserTable" Multiplicity="0..1" />
+    <End Role="LogIn_UserLinkerTable" Type="Self.LogIn_UserLinkerTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="LogIn_UserLinkerTable">
+        <PropertyRef Name="Role_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LukieAnnsLoans_dbModelStoreContainer">
+    <EntitySet Name="Customer_Table" EntityType="Self.Customer_Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoanInterest" EntityType="Self.LoanInterest" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="loanIssueance" EntityType="Self.loanIssueance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoanTerm" EntityType="Self.LoanTerm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoanTermLinkTable" EntityType="Self.LoanTermLinkTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoanType" EntityType="Self.LoanType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Login_DateTimeTable" EntityType="Self.Login_DateTimeTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LogIn_UserLinkerTable" EntityType="Self.LogIn_UserLinkerTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_LogIn" EntityType="Self.User_LogIn" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_loanIssueance_Customer_Table" Association="Self.FK_loanIssueance_Customer_Table">
+      <End Role="Customer_Table" EntitySet="Customer_Table" />
+      <End Role="loanIssueance" EntitySet="loanIssueance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanTermLinkTable_Customer_Table" Association="Self.FK_LoanTermLinkTable_Customer_Table">
+      <End Role="Customer_Table" EntitySet="Customer_Table" />
+      <End Role="LoanTermLinkTable" EntitySet="LoanTermLinkTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanTermLinkTable_LoanTerm" Association="Self.FK_LoanTermLinkTable_LoanTerm">
+      <End Role="LoanTerm" EntitySet="LoanTerm" />
+      <End Role="LoanTermLinkTable" EntitySet="LoanTermLinkTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanTermLinkTable_LoanType" Association="Self.FK_LoanTermLinkTable_LoanType">
+      <End Role="LoanType" EntitySet="LoanType" />
+      <End Role="LoanTermLinkTable" EntitySet="LoanTermLinkTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanType_LoanInterest" Association="Self.FK_LoanType_LoanInterest">
+      <End Role="LoanInterest" EntitySet="LoanInterest" />
+      <End Role="LoanType" EntitySet="LoanType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanType_LoanType" Association="Self.FK_LoanType_LoanType">
+      <End Role="LoanInterest" EntitySet="LoanInterest" />
+      <End Role="LoanType" EntitySet="LoanType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Login_DateTimeTable_LogIn" Association="Self.FK_Login_DateTimeTable_LogIn">
+      <End Role="User_LogIn" EntitySet="User_LogIn" />
+      <End Role="Login_DateTimeTable" EntitySet="Login_DateTimeTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogIn_UserLinkerTable_LogIn" Association="Self.FK_LogIn_UserLinkerTable_LogIn">
+      <End Role="User_LogIn" EntitySet="User_LogIn" />
+      <End Role="LogIn_UserLinkerTable" EntitySet="LogIn_UserLinkerTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogIn_UserLinkerTalbe_UserTable" Association="Self.FK_LogIn_UserLinkerTalbe_UserTable">
+      <End Role="UserTable" EntitySet="UserTable" />
+      <End Role="LogIn_UserLinkerTable" EntitySet="LogIn_UserLinkerTable" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

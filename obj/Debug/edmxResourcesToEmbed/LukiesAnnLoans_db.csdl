@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LukieAnnsLoans_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="LukieAnnsLoans_dbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CusLoanRequest_Linker" EntityType="LukieAnnsLoans_dbModel.CusLoanRequest_Linker" />
+    <EntitySet Name="Customer_Table" EntityType="LukieAnnsLoans_dbModel.Customer_Table" />
+    <EntitySet Name="LoanInterests" EntityType="LukieAnnsLoans_dbModel.LoanInterest" />
+    <EntitySet Name="loanIssueances" EntityType="LukieAnnsLoans_dbModel.loanIssueance" />
+    <EntitySet Name="LoanTerms" EntityType="LukieAnnsLoans_dbModel.LoanTerm" />
+    <EntitySet Name="LoanTypes" EntityType="LukieAnnsLoans_dbModel.LoanType" />
+    <EntitySet Name="Login_DateTimeTable" EntityType="LukieAnnsLoans_dbModel.Login_DateTimeTable" />
+    <EntitySet Name="LogIn_UserLinkerTable" EntityType="LukieAnnsLoans_dbModel.LogIn_UserLinkerTable" />
+    <EntitySet Name="sysdiagrams" EntityType="LukieAnnsLoans_dbModel.sysdiagram" />
+    <EntitySet Name="User_LogIn" EntityType="LukieAnnsLoans_dbModel.User_LogIn" />
+    <EntitySet Name="UserTables" EntityType="LukieAnnsLoans_dbModel.UserTable" />
+    <AssociationSet Name="FK_loanIssueance_CusLoanRequest_Linker" Association="LukieAnnsLoans_dbModel.FK_loanIssueance_CusLoanRequest_Linker">
+      <End Role="CusLoanRequest_Linker" EntitySet="CusLoanRequest_Linker" />
+      <End Role="loanIssueance" EntitySet="loanIssueances" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanTermLinkTable_Customer_Table" Association="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_Customer_Table">
+      <End Role="Customer_Table" EntitySet="Customer_Table" />
+      <End Role="CusLoanRequest_Linker" EntitySet="CusLoanRequest_Linker" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanTermLinkTable_LoanTerm" Association="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_LoanTerm">
+      <End Role="LoanTerm" EntitySet="LoanTerms" />
+      <End Role="CusLoanRequest_Linker" EntitySet="CusLoanRequest_Linker" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanTermLinkTable_LoanType" Association="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_LoanType">
+      <End Role="LoanType" EntitySet="LoanTypes" />
+      <End Role="CusLoanRequest_Linker" EntitySet="CusLoanRequest_Linker" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LoanType_LoanInterest" Association="LukieAnnsLoans_dbModel.FK_LoanType_LoanInterest">
+      <End Role="LoanInterest" EntitySet="LoanInterests" />
+      <End Role="LoanType" EntitySet="LoanTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Login_DateTimeTable_LogIn" Association="LukieAnnsLoans_dbModel.FK_Login_DateTimeTable_LogIn">
+      <End Role="User_LogIn" EntitySet="User_LogIn" />
+      <End Role="Login_DateTimeTable" EntitySet="Login_DateTimeTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogIn_UserLinkerTable_LogIn" Association="LukieAnnsLoans_dbModel.FK_LogIn_UserLinkerTable_LogIn">
+      <End Role="User_LogIn" EntitySet="User_LogIn" />
+      <End Role="LogIn_UserLinkerTable" EntitySet="LogIn_UserLinkerTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogIn_UserLinkerTalbe_UserTable" Association="LukieAnnsLoans_dbModel.FK_LogIn_UserLinkerTalbe_UserTable">
+      <End Role="UserTable" EntitySet="UserTables" />
+      <End Role="LogIn_UserLinkerTable" EntitySet="LogIn_UserLinkerTable" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CusLoanRequest_Linker">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Customer_Id" Type="Int32" />
+    <Property Name="LoanType_Id" Type="Int32" />
+    <Property Name="LoanTerm_Id" Type="Int32" />
+    <NavigationProperty Name="loanIssueances" Relationship="LukieAnnsLoans_dbModel.FK_loanIssueance_CusLoanRequest_Linker" FromRole="CusLoanRequest_Linker" ToRole="loanIssueance" />
+    <NavigationProperty Name="Customer_Table" Relationship="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_Customer_Table" FromRole="CusLoanRequest_Linker" ToRole="Customer_Table" />
+    <NavigationProperty Name="LoanTerm" Relationship="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_LoanTerm" FromRole="CusLoanRequest_Linker" ToRole="LoanTerm" />
+    <NavigationProperty Name="LoanType" Relationship="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_LoanType" FromRole="CusLoanRequest_Linker" ToRole="LoanType" />
+  </EntityType>
+  <EntityType Name="Customer_Table">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="emailAddress" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Telephone" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="CusLoanRequest_Linker" Relationship="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_Customer_Table" FromRole="Customer_Table" ToRole="CusLoanRequest_Linker" />
+  </EntityType>
+  <EntityType Name="LoanInterest">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="LoanTypes" Relationship="LukieAnnsLoans_dbModel.FK_LoanType_LoanInterest" FromRole="LoanInterest" ToRole="LoanType" />
+  </EntityType>
+  <EntityType Name="loanIssueance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CusLoanRequest_Id" Type="Int32" />
+    <Property Name="LoanAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="MonthlyPayment" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="EndDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="CusLoanRequest_Linker" Relationship="LukieAnnsLoans_dbModel.FK_loanIssueance_CusLoanRequest_Linker" FromRole="loanIssueance" ToRole="CusLoanRequest_Linker" />
+  </EntityType>
+  <EntityType Name="LoanTerm">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Term" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="CusLoanRequest_Linker" Relationship="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_LoanTerm" FromRole="LoanTerm" ToRole="CusLoanRequest_Linker" />
+  </EntityType>
+  <EntityType Name="LoanType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="LoanInterest_Id" Type="Int32" />
+    <NavigationProperty Name="CusLoanRequest_Linker" Relationship="LukieAnnsLoans_dbModel.FK_LoanTermLinkTable_LoanType" FromRole="LoanType" ToRole="CusLoanRequest_Linker" />
+    <NavigationProperty Name="LoanInterest" Relationship="LukieAnnsLoans_dbModel.FK_LoanType_LoanInterest" FromRole="LoanType" ToRole="LoanInterest" />
+  </EntityType>
+  <EntityType Name="Login_DateTimeTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login_ID" Type="Int32" Nullable="false" />
+    <Property Name="Login_DateTime" Type="DateTime" Precision="3" />
+    <Property Name="Logout_DateTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="User_LogIn" Relationship="LukieAnnsLoans_dbModel.FK_Login_DateTimeTable_LogIn" FromRole="Login_DateTimeTable" ToRole="User_LogIn" />
+  </EntityType>
+  <EntityType Name="LogIn_UserLinkerTable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LogIn_ID" Type="Int32" Nullable="false" />
+    <Property Name="Role_ID" Type="Int32" />
+    <NavigationProperty Name="User_LogIn" Relationship="LukieAnnsLoans_dbModel.FK_LogIn_UserLinkerTable_LogIn" FromRole="LogIn_UserLinkerTable" ToRole="User_LogIn" />
+    <NavigationProperty Name="UserTable" Relationship="LukieAnnsLoans_dbModel.FK_LogIn_UserLinkerTalbe_UserTable" FromRole="LogIn_UserLinkerTable" ToRole="UserTable" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User_LogIn">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="isActive" Type="Boolean" />
+    <NavigationProperty Name="Login_DateTimeTable" Relationship="LukieAnnsLoans_dbModel.FK_Login_DateTimeTable_LogIn" FromRole="User_LogIn" ToRole="Login_DateTimeTable" />
+    <NavigationProperty Name="LogIn_UserLinkerTable" Relationship="LukieAnnsLoans_dbModel.FK_LogIn_UserLinkerTable_LogIn" FromRole="User_LogIn" ToRole="LogIn_UserLinkerTable" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserRole" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="roleShortName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="LogIn_UserLinkerTable" Relationship="LukieAnnsLoans_dbModel.FK_LogIn_UserLinkerTalbe_UserTable" FromRole="UserTable" ToRole="LogIn_UserLinkerTable" />
+  </EntityType>
+  <Association Name="FK_loanIssueance_CusLoanRequest_Linker">
+    <End Type="LukieAnnsLoans_dbModel.CusLoanRequest_Linker" Role="CusLoanRequest_Linker" Multiplicity="0..1" />
+    <End Type="LukieAnnsLoans_dbModel.loanIssueance" Role="loanIssueance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CusLoanRequest_Linker">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="loanIssueance">
+        <PropertyRef Name="CusLoanRequest_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanTermLinkTable_Customer_Table">
+    <End Type="LukieAnnsLoans_dbModel.Customer_Table" Role="Customer_Table" Multiplicity="0..1" />
+    <End Type="LukieAnnsLoans_dbModel.CusLoanRequest_Linker" Role="CusLoanRequest_Linker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer_Table">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CusLoanRequest_Linker">
+        <PropertyRef Name="Customer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanTermLinkTable_LoanTerm">
+    <End Type="LukieAnnsLoans_dbModel.LoanTerm" Role="LoanTerm" Multiplicity="0..1" />
+    <End Type="LukieAnnsLoans_dbModel.CusLoanRequest_Linker" Role="CusLoanRequest_Linker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoanTerm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CusLoanRequest_Linker">
+        <PropertyRef Name="LoanTerm_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanTermLinkTable_LoanType">
+    <End Type="LukieAnnsLoans_dbModel.LoanType" Role="LoanType" Multiplicity="0..1" />
+    <End Type="LukieAnnsLoans_dbModel.CusLoanRequest_Linker" Role="CusLoanRequest_Linker" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoanType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CusLoanRequest_Linker">
+        <PropertyRef Name="LoanType_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LoanType_LoanInterest">
+    <End Type="LukieAnnsLoans_dbModel.LoanInterest" Role="LoanInterest" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="LukieAnnsLoans_dbModel.LoanType" Role="LoanType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoanInterest">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LoanType">
+        <PropertyRef Name="LoanInterest_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Login_DateTimeTable_LogIn">
+    <End Type="LukieAnnsLoans_dbModel.User_LogIn" Role="User_LogIn" Multiplicity="1" />
+    <End Type="LukieAnnsLoans_dbModel.Login_DateTimeTable" Role="Login_DateTimeTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_LogIn">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Login_DateTimeTable">
+        <PropertyRef Name="Login_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogIn_UserLinkerTable_LogIn">
+    <End Type="LukieAnnsLoans_dbModel.User_LogIn" Role="User_LogIn" Multiplicity="1" />
+    <End Type="LukieAnnsLoans_dbModel.LogIn_UserLinkerTable" Role="LogIn_UserLinkerTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_LogIn">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="LogIn_UserLinkerTable">
+        <PropertyRef Name="LogIn_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogIn_UserLinkerTalbe_UserTable">
+    <End Type="LukieAnnsLoans_dbModel.UserTable" Role="UserTable" Multiplicity="0..1" />
+    <End Type="LukieAnnsLoans_dbModel.LogIn_UserLinkerTable" Role="LogIn_UserLinkerTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="LogIn_UserLinkerTable">
+        <PropertyRef Name="Role_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
